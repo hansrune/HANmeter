@@ -1,0 +1,25 @@
+[Unit]
+Description=HANmeter to Domoticz interface
+After=network.target domoticz.service
+
+[Service]
+User=domo
+Group=domo
+Environment="HANPORT=/dev/HANserial"
+Environment="DOMOIDXKWH=0"
+Environment="DOMOIDXKW=0"
+Environment="FLAGS=-d"
+# .... add to environnment if needed in here
+EnvironmentFile=-/etc/default/HANdomo
+#
+ExecStart=/usr/bin/python3 -u /opt/HANmeter/HANdomo.py $FLAGS $HANPORT $DOMOIDXKW $DOMOIDXKWH
+WorkingDirectory=/opt/HANmeter
+#StandardOutput=inherit
+#StandardError=inherit
+Restart=always
+User=domo
+RestartSec=15
+#Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

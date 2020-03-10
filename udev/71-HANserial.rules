@@ -1,0 +1,9 @@
+#
+# udevadm info --query=all --name ttyUSB0
+# udevadm test $(udevadm info --query path --name ttyUSB0 )
+#
+#SUBSYSTEM=="tty", ENV{ID_SERIAL_SHORT}=="A904MZLI", ENV{ID_VENDOR}=="FTDI", SYMLINK+="ttyUSB22", MODE="0666", SYMLINK+="HANserial"
+# ID_SERIAL=Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001
+# ID_USB_DRIVER=cp210x
+#SUBSYSTEM=="tty", ENV{ID_USB_DRIVER}=="cp210x", SYMLINK+="ttyUSB23", MODE="0666", SYMLINK+="HANserial"
+SUBSYSTEM=="tty", ENV{ID_USB_DRIVER}=="pl2303", SYMLINK+="ttyUSB23", MODE="0666", SYMLINK+="HANserial"
