@@ -1,11 +1,11 @@
 # HANmeter
 A python3 tool to read/decode/debug AMS/HAN data from smart electrical meter
 
-This is based on the aidon_obis.py from https://github.com/skagmo/meter_reading
+This is based on aidon_obis.py from https://github.com/skagmo/meter_reading
 
 Tested to work with Aidon and Hafslund smart meter using M-bus interfaces like 
 [this one](https://www.aliexpress.com/item/32894249052.html) and 
-[this one](https://www.aliexpress.com/item/32751482255.html)
+[this one](https://www.aliexpress.com/item/32751482255.html). The first type is preferred as the serial chip is a USB-2 device with some buffering, which provides fewer packets lost on a busy system.
 
 ## Dependencies
 
