@@ -45,16 +45,16 @@ You can use the HANdomo.py as a HAN utility in a number of ways
 
 You can read from a HAN serial port and display packet hexdumps (-x), OBIS fields (-f), packet processing debug (-p) in any combination like 
 
-   ./HANdomo.py -x -f -p /dev/HANserial
+    HANdomo.py -x -f -p /dev/HANserial
 
 
 ### Log to file and replay 
 
 You can read from a HAN serial port and log the data to a file 
 
-   ./HANdomo.py -l /tmp/packets.log /dev/HANserial
+    HANdomo.py -l /tmp/packets.log /dev/HANserial
 
 ... then later replay the same data
 
-   ./HANdomo.py -x -f -p /tmp/packets.log
+     HANdomo.py -x -f -p /tmp/packets.log
 

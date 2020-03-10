@@ -2,6 +2,6 @@
 # Local configuration for systemctl HANdomo service
 #
 HANPORT=/dev/HANserial
-DOMOIDXKWH=762
-DOMOIDXKW=758
+DOMOIDXKWH=0
+DOMOIDXKW=0
 FLAGS=-f -d
