@@ -19,16 +19,16 @@ The implementation described here is for a Raspberry Pi, but should work on any 
 
 ### /dev/HANserial port
 
-I find it useful to use a /dev/HANserial device. Any serial port name will do, so this step is optional
+I find it useful to use a `/dev/HANserial` device as a persistent name. Any serial port name will do, so this step is optional
 
-Rules for /etc/udev/rules.d are provided in the [udev](./udev/71-HANserial.rules) rule file. Copy to /etc/udev/rules.d/71-HANserial.rules, then reboot
+Rules for /etc/udev/rules.d are provided in the [udev](./udev/71-HANserial.rules) rule file. Copy to `/etc/udev/rules.d/71-HANserial.rules`, attach your device,  then reboot
 
 ### HANdomo systemctl service
 
 Before setting up as a systemctl service, please make sure things work as desciribed for Standalone use (below)
 
-A systemctl service setup is provided in the [service](./service/HANdomo.service) systemctl service file. Copy to /lib/systemd/system/HANdomo.service
-You can change some behavior options by copying the [config](./config/HANdomo) file to /etc/default/HANdomo. The DOMOIDX variables are set to 0 by default to do nothing. If you use Domoticz home automation, you can change these to update a local Domoticz kW-meter and kWh-meter device indexes as needed
+A systemctl service setup is provided in the [service](./service/HANdomo.service) systemctl service file. Copy to `/lib/systemd/system/HANdomo.service`
+You can change some behavior options by copying the [config](./config/HANdomo) file to `/etc/default/HANdomo`. The DOMOIDX variables are set to 0 by default to do nothing. If you use Domoticz home automation, you can change these to update a local Domoticz kW-meter and kWh-meter device indexes as needed
 
 To enable the service, start / enable and check progress:
 
@@ -39,7 +39,7 @@ To enable the service, start / enable and check progress:
 	
 ## Standalone use
 
-You can use the HANdomo.py as a HAN utility in a number of ways 
+You can use `HANdomo.py` script as a HAN utility in a number of ways 
 
 ### Read from /dev/HANserial 
 
@@ -58,7 +58,7 @@ You can read from a HAN serial port and log the data to a file. Any input path i
 
      HANdomo.py -x -f -p /tmp/packets.log
 
-Replaying files captured with *han-port-c-lib* programs also works. 
+Replaying files captured with the utilities in the *han-port-c-lib* library also works. 
 
 ## Examples
 
