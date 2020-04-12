@@ -50,7 +50,7 @@ You can read from a HAN serial port and display packet hexdumps (`-x`), OBIS fie
 
 ### Log to file and replay 
 
-You can read from a HAN serial port and log the data to a file. Any input path including */dev* in the name is opened and read as a serial device. Everything else assumes the input is a file.
+You can read from a HAN serial port and log the binary data stream to a file. Any input path including */dev* in the name is opened and read as a serial device. Everything else assumes the input is a file.
 
     HANdomo.py -l /tmp/packets.log /dev/HANserial
 
@@ -62,7 +62,7 @@ Replaying files captured with the utilities in the *han-port-c-lib* library also
 
 ## Examples
 
-### Ourput from a running service
+### Output from a running service
 
 This service instance runs with `-f` (OBIS field outputs). Domoticz is updated just every minute or so 
 
