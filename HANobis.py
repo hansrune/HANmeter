@@ -223,6 +223,8 @@ class genobis:
 			parseobj(1)
 
 		self.callback(fields)
+		# fix for issue #2 reported by espenbo
+		sys.stdout.flush()
 
 	# General HDLC decoder
 	def decode(self, c):
