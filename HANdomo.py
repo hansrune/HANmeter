@@ -61,7 +61,7 @@ def gen_callback(fields):
 		return
 	if nenergy > 0 and energykey in fields.keys():
 		avgenergy = int( sumenergy / nenergy )
-		updatedomodevice(energyidx, "0", str(fields[energykey]) + ";" + str(avgenergy))
+		updatedomodevice(energyidx, "0", str(fields[energykey]))
 		nenergy = sumenergy = 0
 	if verbose:
 		print("poweridx=",poweridx," energyidx=",energyidx,"npower=",npower,"sumpower=",sumpower,"nenergy=",nenergy,"sumenergy=",sumenergy,"sec=",sec,"lastupdatetime=",lastupdatetime)
