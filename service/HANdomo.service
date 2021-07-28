@@ -12,7 +12,7 @@ Environment="FLAGS=-d"
 # .... add to environnment if needed in here
 EnvironmentFile=-/etc/default/HANdomo
 #
-ExecStart=/usr/bin/python3 -u /opt/HANmeter/HANdomo.py $FLAGS $HANPORT $DOMOIDXKW $DOMOIDXKWH
+ExecStart=/usr/bin/python3 -u /opt/HANmeter/HANdomo.py $FLAGS $HANPORT $DOMOIDXKWH $DOMOIDXMETER
 WorkingDirectory=/opt/HANmeter
 #StandardOutput=inherit
 #StandardError=inherit
