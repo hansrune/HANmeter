@@ -14,10 +14,10 @@ from HANobis import *
 prog     = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 verbose  = debugpkt = debugobis = debughex = debugfields = debugdomo = filedata = logdata = False
 useescape= False  
-managedidx = meteridx = poweridx = energyidx = sumpower = npower = nenergy = sumusagewh = lastmeterswh = diffmeterwh = periodwh = sumusagewh = currmeterwh = lastupdatetime = 0
+managedidx = meteridx = poweridx = energyidx = sumpower = npower = sumusagewh = lastmeterswh = diffmeterwh = periodwh = sumusagewh = currmeterwh = lastupdatetime = lastpower = 0
 powerkey = "act_pow_pos"
 energykey= "act_energy_pos"
-minupdateinterval = 60
+minupdateinterval = 30
 
 def usage():
 	print( "Usage:",prog,"[-p|--pktdebug][-x|--hexdump][-o|--obisdebug][-f|--fieldsdebug][-d|--domodebug][-l|--log logfilename] file_or_device [poweridx [energyidx]]" )
@@ -39,49 +39,43 @@ def updatedomodevice(idx, nvalue, svalue):
 		print("URL", url, "-->", res.read(100))
 
 def gen_callback(fields):
-	global npower, sumpower, lastupdatetime, nenergy, lastmeterswh, currmeterwh, diffmeterwh, periodwh, sumusagewh
+	global npower, sumpower, lastupdatetime, lastpower, lastmeterswh, currmeterwh, diffmeterwh, periodwh, sumusagewh
 	if logdata:
 		outputFile.flush()
 	if debugfields:
 		for key in sorted(fields.keys()):
 			print(key,"=",fields[key])
 		print("")
-	#if poweridx == 0:
-	#	return
 	sec = int(time.time())
 	if powerkey in fields.keys():
-		npower   = npower + 1
-		sumpower = sumpower + fields[powerkey]
 		if lastupdatetime == 0:
 			lastupdatetime = sec
+			lastpower      = fields[powerkey]
 			return
+		npower    = npower + 1
+		currpower = fields[powerkey]
+		sumpower  = sumpower + currpower
 		if npower > 0 and sec - minupdateinterval > lastupdatetime:
 			avgpower = int( sumpower / npower )
 			periodwh = ( sumpower / npower ) * ( sec - lastupdatetime )  / 3600
 			sumusagewh = sumusagewh + periodwh
 
-			updatedomodevice(poweridx, "0", str(avgpower))
-			if meteridx > 0 and lastmeterswh > 0:
-				updatedomodevice(meteridx, "0", str(avgpower) + ";" + str(lastmeterswh))
-			if managedidx > 0 and lastmeterswh > 0:
-				updatedomodevice(managedidx, "0", str(lastmeterswh) + ";" + str(periodwh))
+			updatedomodevice(poweridx, "0", str(avgpower) + ";0")
 
-			nenergy = nenergy + 1
 			npower  = sumpower = 0
 			lastupdatetime = sec
-	#if energyidx == 0:
-	#	return
-	if nenergy > 0 and energykey in fields.keys():
+			lastpower = currpower
+	if energykey in fields.keys():
 		currmeterwh = fields[energykey]
 		updatedomodevice(energyidx, "0", str(currmeterwh))
 		if lastmeterswh > 0:
 			diffmeterwh = currmeterwh - lastmeterswh
 		if verbose:
-			print("Last hour meter: diffmeterwh=",diffmeterwh," integrated energy: sumusagewh=",sumusagewh)
+			print(f"Last hour meter: diffmeterwh={diffmeterwh} integrated energy: sumusagewh={sumusagewh}")
 		lastmeterswh = currmeterwh
-		sumusagewh = nenergy = 0
+		sumusagewh = 0
 	if verbose:
-		print("poweridx=",poweridx," energyidx=",energyidx,"npower=",npower,"sumpower=",sumpower,"nenergy=",nenergy,"periodwh=",periodwh,"sumusagewh=",sumusagewh,"currmeterwh=",currmeterwh,"diffmeterwh=",diffmeterwh,"sec=",sec,"lastupdatetime=",lastupdatetime)
+		print(f"energyidx={energyidx} poweridx={poweridx} power={currpower} npower={npower} sumpower={sumpower} periodwh={periodwh:.1f} sumusagewh={sumusagewh:.1f} currmeterwh={currmeterwh:.1f} diffmeterwh={diffmeterwh:.1f} sec={sec} lastupdatetime={lastupdatetime}")
 		
 try:
 	options, fileargs = getopt.getopt(sys.argv[1:],'pxl:ofdvE',['useescapes','pktdebug','hexdump','log=','obisdebug','fieldsdebug','domodebug','verbose'])
@@ -111,7 +105,7 @@ for opt, arg in options:
 
 if len(fileargs) < 1: usage();
 if len(fileargs) >= 2: energyidx=int(fileargs[1]);
-if len(fileargs) >= 3: meteridx=int(fileargs[2]);
+if len(fileargs) >= 3: poweridx=int(fileargs[2]);
 
 if '/dev/' in fileargs[0]:
 	print("Using serial port",fileargs[0])
