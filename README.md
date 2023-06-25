@@ -11,7 +11,7 @@ Tested to work with Aidon and Hafslund smart meter using M-bus interfaces like
 
 You will need to install python3 serial and crcmod, i.e on a Raspberry Pi
 
-    sudo apt-get install python3-serial pyhon3-crcmod
+    sudo apt-get install python3-serial python3-crcmod
 
 ## Setup 
 
